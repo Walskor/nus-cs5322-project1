@@ -2,7 +2,7 @@
 -- User Table
 -- -------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS Customer (
+CREATE TABLE Customer (
     customer_id NUMBER,
     username VARCHAR(50) NOT NULL,
     password VARCHAR(50) NOT NULL,
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS Customer (
     CONSTRAINT uc_Customer_username UNIQUE (username)
 );
 
-CREATE TABLE IF NOT EXISTS Driver (
+CREATE TABLE Driver (
     driver_id NUMBER,
     username VARCHAR(50) NOT NULL,
     password VARCHAR(50) NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS Driver (
     CONSTRAINT uc_Driver_username UNIQUE (username)
 );
 
-CREATE TABLE IF NOT EXISTS Agent (
+CREATE TABLE Agent (
     agent_id NUMBER,
     username VARCHAR(50) NOT NULL,
     password VARCHAR(50) NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS Agent (
     CONSTRAINT pk_Agent PRIMARY KEY (agent_id)
 );
 
-CREATE TABLE IF NOT EXISTS Manager (
+CREATE TABLE Manager (
     manager_id NUMBER,
     username VARCHAR(50) NOT NULL,
     password VARCHAR(50) NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS Manager (
 -- Entity Table
 -- -------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS Booking (
+CREATE TABLE Booking (
     booking_id NUMBER,
     customer_id NUMBER NOT NULL,
     driver_id NUMBER NOT NULL,
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS Booking (
     CONSTRAINT fk_Booking_Driver FOREIGN KEY(driver_id) REFERENCES Driver (driver_id)
 );
 
-CREATE TABLE IF NOT EXISTS FEEDBACK (
+CREATE TABLE FEEDBACK (
     feedback_id NUMBER,
     booking_id NUMBER NOT NULL,
     rating NUMBER NOT NULL CHECK (rating IN (0,1,2,3,4,5)),
