@@ -72,5 +72,5 @@ CREATE TABLE IF NOT EXISTS FEEDBACK (
     comments VARCHAR(50),
     time TIMESTAMP NOT NULL,
     CONSTRAINT pk_Feedback PRIMARY KEY (feedback_id),
-    CONSTRAINT fk_Feedback_Booking FOREIGN KEY(booking_id) REFERENCES Booking (booking_id),
+    CONSTRAINT fk_Feedback_Booking FOREIGN KEY(booking_id) REFERENCES Booking (booking_id)
 );
