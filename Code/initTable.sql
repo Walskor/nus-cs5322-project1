@@ -2,6 +2,7 @@
 -- User Table
 -- -------------------------------------------------
 
+
 CREATE TABLE Customer (
     customer_id NUMBER,
     username VARCHAR(50) NOT NULL,
