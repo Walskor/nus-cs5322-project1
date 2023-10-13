@@ -37,7 +37,7 @@ END;
 
 -- Test this trigger 
 SELECT SYS_CONTEXT('driver_ctx', 'driver_id') AS driver_id,
-       SYS_CONTEXT('USERENV', 'IDENTITFIER') AS identifier
+       SYS_CONTEXT('IDENTITFIER', 'user_type') AS identifier
 FROM DUAL;
 /
 

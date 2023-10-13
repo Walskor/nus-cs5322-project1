@@ -28,7 +28,7 @@ END AGENT_CTX_PKG;
 /
 
 -- Create a logon trigger to run the application context PL/SQL package
-CREATE TRIGGER SET_AGENT_CTX_TRIG AFTER LOGON ON DATABASE
+CREATE OR REPLACE TRIGGER SET_AGENT_CTX_TRIG AFTER LOGON ON DATABASE
 BEGIN
     AGENT_CTX_PKG.SET_AGENT_ID;
 END;
@@ -37,7 +37,7 @@ END;
 
 -- Test this trigger 
 SELECT SYS_CONTEXT('agent_ctx', 'agent_id') AS AGENT_id,
-       SYS_CONTEXT('USERENV', 'IDENTITFIER') AS identifier
+       SYS_CONTEXT('IDENTITFIER', 'user_type') AS identifier
 FROM DUAL;
 /
 
