@@ -34,3 +34,41 @@ GRANT SELECT, INSERT, UPDATE ON FEEDBACK TO agent3;
 GRANT SELECT, INSERT, UPDATE ON FEEDBACK TO manager4;
 
 
+
+-- --------------------------------------------------
+--              Create Users for Test
+-- --------------------------------------------------
+
+CREATE USER testCustomer IDENTIFIED BY password;
+CREATE USER testDriver IDENTIFIED BY password;
+CREATE USER testAgent IDENTIFIED BY password;
+CREATE USER testManager IDENTIFIED BY password;
+
+GRANT CREATE SESSION TO testCustomer WITH ADMIN OPTION;
+GRANT CREATE SESSION TO testDriver WITH ADMIN OPTION;
+GRANT CREATE SESSION TO testAgent WITH ADMIN OPTION;
+GRANT CREATE SESSION TO testManager WITH ADMIN OPTION;
+
+GRANT SELECT, INSERT, UPDATE ON system.Customer TO testCustomer;
+GRANT SELECT, INSERT, UPDATE ON system.Customer TO testAgent;
+GRANT SELECT, INSERT, UPDATE ON system.Customer TO testManager;
+
+GRANT SELECT, INSERT, UPDATE ON Driver TO testDriver;
+GRANT SELECT, INSERT, UPDATE ON Driver TO testAgent;
+GRANT SELECT, INSERT, UPDATE ON Driver TO testManager;
+
+GRANT SELECT, INSERT, UPDATE ON Agent TO testAgent;
+GRANT SELECT, INSERT, UPDATE ON Agent TO testManager;
+
+GRANT SELECT, INSERT, UPDATE ON Manager TO testManager;
+
+GRANT SELECT, INSERT, UPDATE ON Booking TO testCustomer;
+GRANT SELECT, INSERT, UPDATE ON Booking TO testDriver;
+GRANT SELECT, INSERT, UPDATE ON Booking TO testAgent;
+GRANT SELECT, INSERT, UPDATE ON Booking TO testManager;
+
+GRANT SELECT, INSERT, UPDATE ON FEEDBACK TO testCustomer;
+GRANT SELECT, INSERT, UPDATE ON FEEDBACK TO testDriver;
+GRANT SELECT, INSERT, UPDATE ON FEEDBACK TO testAgent;
+GRANT SELECT, INSERT, UPDATE ON FEEDBACK TO testManager;
+
