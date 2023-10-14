@@ -1,35 +1,3 @@
-CREATE OR REPLACE FUNCTION Is_Customer RETURN BOOLEAN IS
-BEGIN
-    -- To check whether current user is a 'customer'
-    IF SYS_CONTEXT('IDENTIFIER', 'user_type') = 'customer' THEN
-        RETURN TRUE;
-    ELSE
-        RETURN FALSE;
-    END IF;
-END Is_Customer;
-/
-
-CREATE OR REPLACE FUNCTION Is_Driver RETURN BOOLEAN IS
-BEGIN
-    -- To check whether current user is a 'driver'
-    IF SYS_CONTEXT('IDENTIFIER', 'user_type') = 'driver' THEN
-        RETURN TRUE;
-    ELSE
-        RETURN FALSE;
-    END IF;
-END Is_Driver;
-/
-
-CREATE OR REPLACE FUNCTION Is_Manager RETURN BOOLEAN IS
-BEGIN
-    -- To check whether current user is a 'manager'
-    IF SYS_CONTEXT('IDENTIFIER', 'user_type') = 'manager' THEN
-        RETURN TRUE;
-    ELSE
-        RETURN FALSE;
-    END IF;
-END Is_Manager;
-/
 -- ---------------------------------------------------------
 --                  Customer Table
 -- ---------------------------------------------------------
@@ -138,7 +106,8 @@ BEGIN
         POLICY_NAME => 'GET_DRIVER_POLICY',
         POLICY_FUNCTION => 'GET_DRIVER',
         STATEMENT_TYPES => 'select',
-        POLICY_TYPE => DBMS_RLS.CONTEXT_SENSITIVE
+        POLICY_TYPE => DBMS_RLS.CONTEXT_SENSITIVE,
+        update_check => TRUE
     );
 END;
 /
@@ -203,7 +172,8 @@ BEGIN
         POLICY_NAME => 'GET_AGENT_POLICY',
         POLICY_FUNCTION => 'GET_AGENT',
         STATEMENT_TYPES => 'select',
-        POLICY_TYPE => DBMS_RLS.CONTEXT_SENSITIVE
+        POLICY_TYPE => DBMS_RLS.CONTEXT_SENSITIVE,
+        update_check => TRUE
     );
 END;
 /
@@ -345,6 +315,17 @@ BEGIN
 END;
 /
 
+BEGIN
+   DBMS_REDACT.ALTER_POLICY(
+     object_schema          => 'system',
+     object_name            => 'Booking',
+     policy_name            => 'mask_Booking',
+     column_name            => 'customer_name',
+     function_type        => DBMS_REDACT.FULL,
+     expression           => 'SYS_CONTEXT(''IDENTIFIER'', ''user_type'') = ''customer''');
+END;
+/
+
 --Add more than one policy on one table: Mask ID for all Users except Managers
 BEGIN
    DBMS_REDACT.ALTER_POLICY(
@@ -426,6 +407,15 @@ BEGIN
       object_schema           => 'system',
       object_name             => 'Booking',
       column_name             => 'customer_paid',
+      policy_expression_name  => 'driver_can_not_see');
+END;
+/
+
+BEGIN
+   DBMS_REDACT.APPLY_POLICY_EXPR_TO_COL(
+      object_schema           => 'system',
+      object_name             => 'Booking',
+      column_name             => 'customer_name',
       policy_expression_name  => 'driver_can_not_see');
 END;
 /
