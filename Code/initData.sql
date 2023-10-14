@@ -49,23 +49,23 @@ INSERT INTO Manager (manager_id, username, password, gmt_created, gmt_modified)
 VALUES (4, 'managerA', 'manager012', SYSDATE, SYSDATE);
 
 -- Dummy data for Booking
-INSERT INTO Booking (booking_id, customer_id, driver_id, customer_contact, driver_contact, status, placed_on, customer_paid, driver_earned) 
-VALUES (1, 1, 1, '123-456-7890', '987-654-3210', 'placed', SYSTIMESTAMP, 100, 85);
-INSERT INTO Booking (booking_id, customer_id, driver_id, customer_contact, driver_contact, status, placed_on, customer_paid, driver_earned) 
-VALUES (2, 2, 2, '123-456-7891', '987-654-3211', 'accepted', SYSTIMESTAMP, 150, 130);
-INSERT INTO Booking (booking_id, customer_id, driver_id, customer_contact, driver_contact, status, placed_on, customer_paid, driver_earned) 
-VALUES (3, 3, 3, '123-456-7892', '987-654-3212', 'finished', SYSTIMESTAMP, 200, 175);
-INSERT INTO Booking (booking_id, customer_id, driver_id, customer_contact, driver_contact, status, placed_on, customer_paid, driver_earned) 
-VALUES (4, 4, 4, '123-456-7893', '987-654-3213', 'cancelled', SYSTIMESTAMP, 50, 40);
+INSERT INTO Booking (booking_id, customer_id, driver_id, customer_name, driver_name, customer_contact, driver_contact, status, placed_on, customer_paid, driver_earned) 
+VALUES (1, 1, 1, 'customer_name_1', 'driver_name_1', '123-456-7890', '987-654-3210', 'placed', SYSTIMESTAMP, 100, 85);
+INSERT INTO Booking (booking_id, customer_id, driver_id, customer_name, driver_name, customer_contact, driver_contact, status, placed_on, customer_paid, driver_earned) 
+VALUES (2, 2, 2, 'customer_name_2', 'driver_name_2', '123-456-7891', '987-654-3211', 'accepted', SYSTIMESTAMP, 150, 130);
+INSERT INTO Booking (booking_id, customer_id, driver_id, customer_name, driver_name, customer_contact, driver_contact, status, placed_on, customer_paid, driver_earned) 
+VALUES (3, 3, 3, 'customer_name_3', 'driver_name_3', '123-456-7892', '987-654-3212', 'finished', SYSTIMESTAMP, 200, 175);
+INSERT INTO Booking (booking_id, customer_id, driver_id, customer_name, driver_name, customer_contact, driver_contact, status, placed_on, customer_paid, driver_earned) 
+VALUES (4, 4, 4, 'customer_name_4', 'driver_name_4', '123-456-7893', '987-654-3213', 'cancelled', SYSTIMESTAMP, 50, 40);
 
 -- Dummy data for FEEDBACK
-INSERT INTO FEEDBACK (feedback_id, booking_id, rating, comments, time) 
-VALUES (1, 1, 5, 'Excellent service!', SYSTIMESTAMP);
-INSERT INTO FEEDBACK (feedback_id, booking_id, rating, comments, time) 
-VALUES (2, 2, 4, 'Good ride.', SYSTIMESTAMP);
-INSERT INTO FEEDBACK (feedback_id, booking_id, rating, comments, time) 
-VALUES (3, 3, 3, 'It was okay.', SYSTIMESTAMP);
-INSERT INTO FEEDBACK (feedback_id, booking_id, rating, comments, time) 
-VALUES (4, 4, 2, 'Could be better.', SYSTIMESTAMP);
+INSERT INTO FEEDBACK (feedback_id, booking_id, customer_id, driver_id, rating, comments, time) 
+VALUES (1, 1, 1, 1, 5, 'Excellent service!', SYSTIMESTAMP);
+INSERT INTO FEEDBACK (feedback_id, booking_id, customer_id, driver_id, rating, comments, time) 
+VALUES (2, 2, 2, 2, 4, 'Good ride.', SYSTIMESTAMP);
+INSERT INTO FEEDBACK (feedback_id, booking_id, customer_id, driver_id, rating, comments, time) 
+VALUES (3, 3, 3, 3, 3, 'It was okay.', SYSTIMESTAMP);
+INSERT INTO FEEDBACK (feedback_id, booking_id, customer_id, driver_id, rating, comments, time) 
+VALUES (4, 4, 4, 4, 2, 'Could be better.', SYSTIMESTAMP);
 
 

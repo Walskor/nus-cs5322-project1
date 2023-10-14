@@ -6,4 +6,4 @@ select * from system.Booking;
 
 select * from system.FEEDBACK;
 
-select sys_context('IDENTITY', 'user_type'),  sys_context('IDENTITY', 'user_id') from dual;
+select SYS_CONTEXT('IDENTIFIER', 'user_type'), SYS_CONTEXT('manager_ctx', 'manager_id') from dual;

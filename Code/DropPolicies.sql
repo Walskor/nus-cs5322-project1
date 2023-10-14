@@ -96,3 +96,20 @@ END;
 -- ---------------------------------------------------------
 --                  Feedback Table
 -- ---------------------------------------------------------
+BEGIN
+    DBMS_RLS.DROP_POLICY (
+        OBJECT_SCHEMA => 'system',
+        OBJECT_NAME => 'Feedback',
+        POLICY_NAME => 'GET_FEEDBACK_POLICY'
+    );
+END;
+/
+
+BEGIN
+    DBMS_REDACT.DROP_POLICY (
+        OBJECT_SCHEMA => 'system',
+        OBJECT_NAME => 'Feedback',
+        POLICY_NAME => 'mask_Feedback'
+    );
+END;
+/

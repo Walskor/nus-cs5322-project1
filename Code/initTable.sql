@@ -47,11 +47,15 @@ CREATE TABLE Manager (
 -- -------------------------------------------------
 -- Entity Table
 -- -------------------------------------------------
-
+--alter table Booking add customer_name VARCHAR(50);
+--alter table Booking add driver_name VARCHAR(50);
+--update Booking set customer_name = 'customer_name_5', driver_name = 'driver_name_5' where booking_id = 5;
 CREATE TABLE Booking (
     booking_id NUMBER,
     customer_id NUMBER NOT NULL,
     driver_id NUMBER NOT NULL,
+    customer_name VARCHAR(50) NOT NULL,
+    driver_name VARCHAR(50) NOT NULL,
     customer_contact VARCHAR(50) NOT NULL,
     driver_contact VARCHAR(50) NOT NULL,
     status VARCHAR2(20) CHECK (status IN ('placed', 'accepted', 'cancelled', 'finished')),
@@ -69,6 +73,8 @@ CREATE TABLE Booking (
 CREATE TABLE FEEDBACK (
     feedback_id NUMBER,
     booking_id NUMBER NOT NULL,
+    customer_id NUMBER NOT NULL,
+    driver_id NUMBER NOT NULL,
     rating NUMBER NOT NULL CHECK (rating IN (0,1,2,3,4,5)),
     comments VARCHAR(50),
     time TIMESTAMP NOT NULL,
