@@ -401,3 +401,53 @@ END;
 -- ---------------------------------------------------------
 --                  Feedback Table
 -- ---------------------------------------------------------
+CREATE OR REPLACE FUNCTION GET_FEEDBACK(
+    SCHEMA_P IN VARCHAR2,
+    TABLE_P IN VARCHAR2
+) RETURN VARCHAR2 AS
+    condition VARCHAR2 (400);
+BEGIN
+    IF SYS_CONTEXT('IDENTIFIER', 'user_type') = 'customer'
+        THEN condition := 'customer_id = SYS_CONTEXT(''customer_ctx'', ''customer_id'')';
+    ELSIF SYS_CONTEXT('IDENTIFIER', 'user_type') = 'driver'
+        THEN condition := 'driver_id = SYS_CONTEXT(''driver_ctx'', ''driver_id'')';
+    ELSIF SYS_CONTEXT('IDENTIFIER', 'user_type') = 'agent'
+        THEN NULL;
+    ELSIF SYS_CONTEXT('IDENTIFIER', 'user_type') = 'manager'
+        THEN NULL;
+    END IF;
+    RETURN condition;
+END;
+/
+
+BEGIN
+    DBMS_RLS.ADD_POLICY (
+        OBJECT_SCHEMA => 'system',
+        OBJECT_NAME => 'Feedback',
+        POLICY_NAME => 'GET_FEEDBACK_POLICY',
+        POLICY_FUNCTION => 'GET_FEEDBACK',
+        STATEMENT_TYPES => 'select',
+        POLICY_TYPE => DBMS_RLS.CONTEXT_SENSITIVE
+    );
+END;
+/
+
+BEGIN
+   DBMS_REDACT.ADD_POLICY(
+     object_schema          => 'system',
+     object_name            => 'Feedback',
+     policy_name            => 'mask_Feedback',
+     column_name            => 'feedback_id',
+     function_type        => DBMS_REDACT.FULL,
+     expression           => 'SYS_CONTEXT(''IDENTIFIER'', ''user_type'') = ''manager''');
+END;
+/
+
+BEGIN
+   DBMS_REDACT.APPLY_POLICY_EXPR_TO_COL(
+      object_schema           => 'system',
+      object_name             => 'Feedback',
+      column_name             => 'feedback_id',
+      policy_expression_name  => 'only_manager_can_see');
+END;
+/
