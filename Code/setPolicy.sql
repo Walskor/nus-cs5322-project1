@@ -60,7 +60,8 @@ BEGIN
         POLICY_NAME => 'GET_CUSTOMER_POLICY',
         POLICY_FUNCTION => 'GET_CUSTOMER',
         STATEMENT_TYPES => 'select',
-        POLICY_TYPE => DBMS_RLS.CONTEXT_SENSITIVE
+        POLICY_TYPE => DBMS_RLS.CONTEXT_SENSITIVE,
+        update_check => TRUE
     );
 END;
 /
@@ -355,6 +356,28 @@ BEGIN
 END;
 /
 
+--Add more than one policy on one table: Mask ID for all Users except Managers
+BEGIN
+   DBMS_REDACT.ALTER_POLICY(
+     object_schema          => 'system',
+     object_name            => 'Booking',
+     policy_name            => 'mask_Booking',
+     column_name            => 'customer_id',
+     function_type        => DBMS_REDACT.FULL);
+END;
+/
+
+--Add more than one policy on one table: Mask ID for all Users except Managers
+BEGIN
+   DBMS_REDACT.ALTER_POLICY(
+     object_schema          => 'system',
+     object_name            => 'Booking',
+     policy_name            => 'mask_Booking',
+     column_name            => 'driver_id',
+     function_type        => DBMS_REDACT.FULL);
+END;
+/
+
 
 
 -- For some reason, the expression in the last statement does not work, so Create another expression to apply.
@@ -376,6 +399,24 @@ BEGIN
       object_schema           => 'system',
       object_name             => 'Booking',
       column_name             => 'booking_id',
+      policy_expression_name  => 'only_manager_can_see');
+END;
+/
+
+BEGIN
+   DBMS_REDACT.APPLY_POLICY_EXPR_TO_COL(
+      object_schema           => 'system',
+      object_name             => 'Booking',
+      column_name             => 'customer_id',
+      policy_expression_name  => 'only_manager_can_see');
+END;
+/
+
+BEGIN
+   DBMS_REDACT.APPLY_POLICY_EXPR_TO_COL(
+      object_schema           => 'system',
+      object_name             => 'Booking',
+      column_name             => 'driver_id',
       policy_expression_name  => 'only_manager_can_see');
 END;
 /
@@ -448,6 +489,71 @@ BEGIN
       object_schema           => 'system',
       object_name             => 'Feedback',
       column_name             => 'feedback_id',
+      policy_expression_name  => 'only_manager_can_see');
+END;
+/
+
+--mask booking_id
+BEGIN
+   DBMS_REDACT.ALTER_POLICY(
+     object_schema          => 'system',
+     object_name            => 'Feedback',
+     policy_name            => 'mask_Feedback',
+     column_name            => 'booking_id',
+     function_type        => DBMS_REDACT.FULL,
+     expression           => 'SYS_CONTEXT(''IDENTIFIER'', ''user_type'') = ''manager''');
+END;
+/
+
+--mask customer_id
+BEGIN
+   DBMS_REDACT.ALTER_POLICY(
+     object_schema          => 'system',
+     object_name            => 'Feedback',
+     policy_name            => 'mask_Feedback',
+     column_name            => 'customer_id',
+     function_type        => DBMS_REDACT.FULL,
+     expression           => 'SYS_CONTEXT(''IDENTIFIER'', ''user_type'') = ''manager''');
+END;
+/
+
+--mask driver_id
+BEGIN
+   DBMS_REDACT.ALTER_POLICY(
+     object_schema          => 'system',
+     object_name            => 'Feedback',
+     policy_name            => 'mask_Feedback',
+     column_name            => 'driver_id',
+     function_type        => DBMS_REDACT.FULL,
+     expression           => 'SYS_CONTEXT(''IDENTIFIER'', ''user_type'') = ''manager''');
+END;
+/
+
+-- For some reason, the expression in the last statement does not work, so Create another expression to apply.
+
+BEGIN
+   DBMS_REDACT.APPLY_POLICY_EXPR_TO_COL(
+      object_schema           => 'system',
+      object_name             => 'Feedback',
+      column_name             => 'booking_id',
+      policy_expression_name  => 'only_manager_can_see');
+END;
+/
+
+BEGIN
+   DBMS_REDACT.APPLY_POLICY_EXPR_TO_COL(
+      object_schema           => 'system',
+      object_name             => 'Feedback',
+      column_name             => 'customer_id',
+      policy_expression_name  => 'only_manager_can_see');
+END;
+/
+
+BEGIN
+   DBMS_REDACT.APPLY_POLICY_EXPR_TO_COL(
+      object_schema           => 'system',
+      object_name             => 'Feedback',
+      column_name             => 'driver_id',
       policy_expression_name  => 'only_manager_can_see');
 END;
 /
